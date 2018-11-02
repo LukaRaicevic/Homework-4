@@ -15,7 +15,7 @@ const srch = document.getElementById("div-srch-list");
 // Na submit forme gdje unosimo item treba da aktiviramo submit event
 
 form.addEventListener("submit", addItem);
-
+let br = 0;
 // Sada trebamo da kreiramo event handler za submit forme
 // Event handler za dodavanje itema
 function addItem(event){
@@ -58,7 +58,18 @@ function addItem(event){
     // Nakon toga, potrebno je da dodamo
     // novokreirani li u listu itema
     itemList.appendChild(li);
+
+    let lclStrg = "<li class='list-group-item'>"+input+"<button class='btn btn-danger btn-sm float-right delete'>X</button></li>"
+    localStorage.setItem('item'+br, lclStrg);
+    br++;
 }
+
+for(let i = 0; i < localStorage.length; i++) {
+    let itms = localStorage.getItem('item'+i);
+    itemList.innerHTML += itms;
+}
+
+// Koristio sam localStorage, a ne cookies
 
 // 2. Brisanje elemenata iz liste
 
@@ -94,7 +105,7 @@ function removeItem(event){
 // prvo nam treba input polje za pretragu itema
 // id - filter
 const filter = document.getElementById("filter");
-
+let srchElemList = document.getElementsByClassName("srch-elem");
 // Na filter input polje dodamo event "keyup" i event handler
 filter.addEventListener("keyup", filterItems);
 
@@ -119,27 +130,33 @@ function filterItems(event){
         // item.firstChild.textContent
         const itemText = item.firstChild.textContent;
         
-        
         // provjerim da li se uneseni tekst nalazi u item name
         // Napomena: i item names moraju biti mala slova
         // Najjednostavnije koristiti indexOf za provjeru da li 
         // se string nalazi u stringu, != -1 ako jeste 
         if(itemText.toLowerCase().indexOf(text) != -1) {
             // ako jeste, item.style.display = "block"
-            //item.style.display = "block";
+            for(let i = 0; i < srchElemList.length; i++) {
+                if(itemText == srchElemList[i].innerHTML) {
+                    srchElemList[i].style.display = "none";
+                }
+            }
+            item.style.display = "block";
             let srchElem = document.createElement("p");
+            srchElem.className = "srch-elem";
             srchElem.textContent = itemText;
             srchElem.addEventListener("click", function() {
-                
+                filter.value = this.innerHTML;
             });
             srch.appendChild(srchElem);
         } else {
             // ako nije, item.style.display = "none"
-            //item.style.display = "none";
-            return;
+            item.style.display = "none";
+            //return;
         }
-
+        if(text == "") {
+            srch.innerHTML = "";
+        }
+        
     });
-            
 }
-

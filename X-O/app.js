@@ -46,21 +46,25 @@ for(let i = 0; i < sqr.length; i++) {
                 
                 let pobjednik = red === 1 ? igrac2 : igrac1;
                 alert("Igrac " + pobjednik + " je pobjednik");
+                restart();
         } else if(brPoteza === 9) {
-                jedan.innerText = "";
-                dva.innerText = "";
-                tri.innerText = "";
-                cetiri.innerText = "";
-                pet.innerText = "";
-                sest.innerText = "";
-                sedam.innerText = "";
-                osam.innerText = "";
-                devet.innerText = "";
-
-                red = 1;
-                brPoteza = 0;
-                naPotezu.innerText = "Igrac X je na potezu";
+            restart();
         }
     });
 }
 
+function restart() {
+    jedan.innerText = "";
+    dva.innerText = "";
+    tri.innerText = "";
+    cetiri.innerText = "";
+    pet.innerText = "";
+    sest.innerText = "";
+    sedam.innerText = "";
+    osam.innerText = "";
+    devet.innerText = "";
+
+    red = 1;
+    brPoteza = 0;
+    naPotezu.innerText = "Igrac X je na potezu";
+}

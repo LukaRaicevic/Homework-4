@@ -36,13 +36,20 @@ console.log(map([1, 2, 3], addTwo));
 
 // Challenge 4
 function forEach(array, callback) {
-	for(let i = 0; i < array.length; i++) {
-    callback(array[i]);
+	let arr = [];
+  for(let i = 0; i < array.length; i++) {
+    arr.push(callback(array[i]));
   }
+  return arr;
 }
 
 // see for yourself if your forEach works!
-
+var alphabet = '';
+var letters = ['a', 'b', 'c', 'd'];
+forEach(letters, function(char) {
+  alphabet += char;
+});
+console.log(alphabet);
 
 //--------------------------------------------------
 // Extension
@@ -50,12 +57,10 @@ function forEach(array, callback) {
 
 //Extension 1
 function mapWith(array, callback) {
-	let output = [];
-  
-  return output;
+	return forEach(array, callback);
 }
 
-console.log(mapWith([1, 2, 3], addTwo));
+//console.log(mapWith([1, 2, 3], addTwo));
 //Extension 2
 function add(a, b) {
   return a+b;
@@ -126,7 +131,13 @@ console.log(union([5, 10, 15], [15, 88, 1, 5, 7], [100, 15, 10, 1, 5]));
 
 //Extension 5
 function objOfMatches(array1, array2, callback) {
-
+	let obj = {};
+  for(let i = 0; i < array1.length; i++) {
+    if(callback(array1[i]) === array2[i]) {
+      obj[String(array1[i])] = String(array2[i]);
+    }
+  }
+  return obj;
 }
 
 // console.log(objOfMatches(['hi', 'howdy', 'bye', 'later', 'hello'], ['HI', 'Howdy', 'BYE', 'LATER', 'hello'], function(str) { return str.toUpperCase(); }));
@@ -134,8 +145,18 @@ function objOfMatches(array1, array2, callback) {
 
 //Extension 6
 function multiMap(arrVals, arrCallbacks) {
-
+	let obj = {};
+  for(let i = 0; i < arrVals.length; i++) {
+    let arr = [];
+    for(let j = 0; j < arrCallbacks.length; j++) {
+      let func = arrCallbacks[j];
+      arr[j] = func(arrVals[i]);
+    }
+    obj[String(arrVals[i])] = JSON.stringify(arr);
+  }
+  return obj;
 }
+
 
 // console.log(multiMap(['catfood', 'glue', 'beer'], [function(str) { return str.toUpperCase(); }, function(str) { return str[0].toUpperCase() + str.slice(1).toLowerCase(); }, function(str) { return str + str; }]));
 // should log: { catfood: ['CATFOOD', 'Catfood', 'catfoodcatfood'], glue: ['GLUE', 'Glue', 'glueglue'], beer: ['BEER', 'Beer', 'beerbeer'] }

@@ -87,7 +87,16 @@ var onceFunc = once(addByTwo);
 
 
 function after(count, func) {
-	
+	let brojac = 0;
+  
+  return function() {
+    brojac++;
+    if(brojac < count) {
+      return;
+    } else {
+      return func();
+    }
+  }
 }
 
 var called = function() { console.log('hello1') };
